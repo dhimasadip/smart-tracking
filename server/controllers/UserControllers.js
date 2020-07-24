@@ -8,9 +8,7 @@ class UserControllers {
         
         User.findOne({where: {email: req.body.email}})
         .then(data=>{
-            console.log("masuk");
             if( !data ){
-                console.log("masuk2");
                 let obj = {
                     name: req.body.name,
                     email: req.body.email,
@@ -19,19 +17,16 @@ class UserControllers {
                 
                 return User.create(obj)
             }   else {
-                console.log("masuk2");
-                res.status(201).json( JSON.stringify(user) )
-                // next({name: "USERNAME_SUDAH_ADA"})
+                res.status(201).json(user)
             }
         })
         .then(user =>{
-            console.log(user, "user usercontroller")
-            res.status(201).json( JSON.stringify(user) )
+            res.status(201).json(user)
         }) 
         .catch(err=>{
-            console.log(JSON.stringify(err), "catch register usercontroller")
-            res.status(201).json( err )
-            // next(err)
+            next(err)
+            // res.status(400).json(err)
+            // res.send(err)
         })
     }
 
@@ -46,17 +41,18 @@ class UserControllers {
                     id: user.id,
                     email: user.email
                 }, 'admin' )
-                console.log("masuk login berhasil");
+                // console.log("masuk login berhasil");
                 res.status(200).json(token)
             } else {
                 // next({name: "USERNAME_PASSWORD_SALAH"})
-                console.log("else nya login User Controller")
+                // console.log("else nya login User Controller")
                 // next(err)
                 res.status(400).json({message: "Username or password salah"})
             }
         })
         .catch(err=>{
-            console.log(err)
+            // console.log(err)
+            next(err)
         })
     }
 

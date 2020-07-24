@@ -6,7 +6,7 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 const routes = require('./routes')
-// const errorHandler = require('./middleware/errorHandler')
+const errorHandler = require('./middleware/errorHandler')
 const cors = require('cors')
 
 app.use(cors())
@@ -19,6 +19,6 @@ if( process.env.NODE_ENV != 'test' ){
     })
 }
 
-// app.use(errorHandler)
+app.use(errorHandler)
 
 module.exports = app

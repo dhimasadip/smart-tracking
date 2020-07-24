@@ -4,13 +4,20 @@
   "description": "Smart Tracking System",
   "main": "app.js",
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles --forceExit"
+    "test": "jest --runInBand --detectOpenHandles --forceExit",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "Dhimas, Bakti, Ichsan, Andreas",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "jest": "^26.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.3.0",
+    "sequelize": "^6.3.3",
     "supertest": "^4.0.2"
   }
 }

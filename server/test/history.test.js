@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../app.js');
 const { queryInterface } = require('../models').sequelize;
 const { User, Device } = require('../models')
-const { generateToken } = require('../helpers/jwt.js');
+const jwt = require('jsonwebtoken');
 
 let user = {
   email: 'user@example.com',
@@ -21,7 +21,8 @@ beforeAll((done) => {
   User.create(user)
     .then((data) => {
       const { id, email } = data
-      token = generateToken({ id, email })
+      // token = generateToken({ id, email })
+      token = jwt.sign({ id, email }, 'admin')
       done();
     })
     .catch((err) => done(err));

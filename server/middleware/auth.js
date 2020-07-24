@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 function authentication (req,res,next) {
     // console.log(req.headers, "headers")
     const {token} = req.headers
-    // console.log(token, "token auth")
+    console.log(token, "token auth")
     if( !token ){
         next({name: "TOKEN_ERROR"})
     } else {

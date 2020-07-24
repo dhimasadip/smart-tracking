@@ -27,8 +27,8 @@ describe('POST /register', () => {
                 const { body, status } = response
                 expect(status).toBe(201)
                 expect(body).toHaveProperty('id', expect.any(Number))
-                expect(body).toHaveProperty('name', expect.any(String))
-                expect(body).toHaveProperty('email', user.email)
+                expect(body).toHaveProperty('name', registerUser.name)
+                expect(body).toHaveProperty('email', registerUser.email)
                 done()
             })
     })
@@ -44,7 +44,7 @@ describe('POST /register', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(String))
+                expect(body).toHaveProperty('message', expect.any(Array))
                 done()
             })
     })
@@ -60,15 +60,15 @@ describe('POST /register', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(String))
+                expect(body).toHaveProperty('message', expect.any(Array))
                 done()
             })
     })
-    it('Password less then 6 characters, return status code 400 with message', (done) => {
+    it('Password less then 5 characters, return status code 400 with message', (done) => {
         let registerUser = {
             name: 'user',
             email: 'user@example.com',
-            password: '12345',
+            password: '1234',
         }
         request(app)
             .post('/register')
@@ -76,15 +76,15 @@ describe('POST /register', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(String))
+                expect(body).toHaveProperty('message', expect.any(Array))
                 done()
             })
     })
-    it('Password more then 12 characters, return status code 400 with message', (done) => {
+    it('Password more then 10 characters, return status code 400 with message', (done) => {
         let registerUser = {
             name: 'user',
             email: 'user@example.com',
-            password: '1234567890123',
+            password: '12345678901',
         }
         request(app)
             .post('/register')
@@ -92,7 +92,7 @@ describe('POST /register', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(String))
+                expect(body).toHaveProperty('message', expect.any(Array))
                 done()
             })
     })
@@ -129,7 +129,7 @@ describe('POST /login', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(404)
-                expect(body).toHaveProperty('message', expect.any(String))
+                expect(body).toHaveProperty('message', expect.any(Array))
                 done()
             })
     })
@@ -144,7 +144,7 @@ describe('POST /login', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(String))
+                expect(body).toHaveProperty('message', expect.any(Array))
                 done()
             })
     })
