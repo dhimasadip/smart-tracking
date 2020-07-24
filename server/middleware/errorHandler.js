@@ -83,7 +83,6 @@ function errorHandler(err, req, res, next) {
     }
 
     return res.status(statusCode).json({
-        errorCode,
         message: errorMessage
     })
 

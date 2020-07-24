@@ -1,0 +1,3 @@
+user -CRUD
+device - Read, Create
+history - Read, Create, Delete
