@@ -14,17 +14,13 @@ let token;
 let id;
 
 beforeAll((done) => {
-  // console.log('XXXXXXXXXXXX');
   User.create(user)
     .then((data) => {
-      // console.log(data, '<<<<< dataaaa');
       const { id, email } = data
       token = jwt.sign({ id, email }, 'admin')
-      // console.log(token, '<<<<<<<<<<<  token');
       done();
     })
     .catch((err) => {
-      // console.log(err, 'beforeAll');
       done(err)
     })
 })
@@ -53,16 +49,13 @@ describe('POST /devices', () => {
       .send(newDevice)
       .then((response) => {
         const { body, status } = response
-        console.log(id, body, status, '<<<<< post device');
         expect(status).toBe(201)
         expect(body).toHaveProperty('id', expect.any(Number))
         expect(body).toHaveProperty('UserId', expect.any(Number))
-        // expect(body).toHaveProperty('message', expect.any(String))
         id = body.id
         done()
       })
       .catch(err => {
-        // console.log(err, '<<<');
         done(err)
       })
   })
@@ -105,7 +98,6 @@ describe('GET /devices/:id', () => {
       .set('token', token)
       .then((response) => {
         const { body, status } = response
-        // console.log(id, body, status, '<<<< body');
         expect(status).toBe(200)
         expect(body).toHaveProperty('id', expect.any(Number))
         expect(body).toHaveProperty('DeviceCode', expect.any(Number))
@@ -139,17 +131,14 @@ describe('POST /devices/:id/history', () => {
       .then((response) => {
 
         const { body, status } = response
-        console.log(token, id, body, status, 'ini history');
         expect(status).toBe(201)
         expect(body).toHaveProperty('id', expect.any(Number))
         expect(body).toHaveProperty('longitude', newHistory.longitude)
         expect(body).toHaveProperty('latitude', newHistory.latitude)
         expect(body).toHaveProperty('DeviceId', expect.any(Number))
-        // id = body.id
         done()
       })
       .catch(err => {
-        // console.log(err, '<<<< err history');
         done(err)
       })
   })
@@ -197,18 +186,41 @@ describe('GET /devices/:id/current', () => {
         done()
       })
   })
+  it(`Device not found, return status code 404 with message`, (done) => {
+    request(app)
+    .delete(`/devices/77/histories`)
+    .set('token', token)
+    .then((response) => {
+      const { body, status } = response
+      expect(status).toBe(404)
+      expect(body).toHaveProperty('message', expect.any(String))
+      done()
+    })
+})
 })
 
-// describe(`DELETE /devices/:id/histories/:id`, () => {
-//   it(`Success delete, return status code 200 with message`, (done) => {
-//       request(app)
-//       .delete(`/devices/${idDevice}/histories/1`)
-//       .set('token', token)
-//       .then((response) => {
-//         const { body, status } = response
-//         expect(status).toBe(200)
-//         expect(body).toHaveProperty('message', expect.any(String))
-//         done()
-//       })
-//   })
-// })
+describe(`DELETE /devices/:id/histories/`, () => {
+  it(`Success delete, return status code 200 with message`, (done) => {
+      request(app)
+      .delete(`/devices/${id}/histories`)
+      .set('token', token)
+      .then((response) => {
+        const { body, status } = response
+        expect(status).toBe(200)
+        expect(body).toHaveProperty('message', expect.any(String))
+        done()
+      })
+  })
+
+  it(`Device not found, return status code 404 with message`, (done) => {
+      request(app)
+      .delete(`/devices/77/histories`)
+      .set('token', token)
+      .then((response) => {
+        const { body, status } = response
+        expect(status).toBe(404)
+        expect(body).toHaveProperty('message', expect.any(String))
+        done()
+      })
+  })
+})
