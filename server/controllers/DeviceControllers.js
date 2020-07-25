@@ -7,37 +7,42 @@ class DeviceControllers {
 
         let obj = {
             UserId: req.userData.id,
-            DeviceId: '3',
             DeviceCode: req.body.DeviceCode
         }
-        UserDevice.create(obj)
+        Device.create(obj)
         .then((product)=>{
+            // console.log(product, 'y add');
             res.status(201).json(product)
         })
         .catch((err)=>{
-            console.log(err, "ini error")
-            // next(err)
+            // console.log(err.name, "err add")
+            next(err)
         })
     }
 
     static showAllDevice(req,res,next){
-        UserDevice.findAll({where: {UserId: req.userData.id},order: [['id', 'ASC']]})
+        Device.findAll({where: {UserId: req.userData.id},order: [['id', 'ASC']]})
         .then(devices=>{
-            console.log(devices, "ini devices");
-            res.status(201).json(devices)
+            // console.log(devices, "ini devices");
+            res.status(200).json(devices)
         })
         .catch((err)=>{
-            console.log(err, "ini error show all device")
-            // next(err)
+            // console.log(err, "ini error show all device")
+            next(err)
         })
     }
 
     static showOneDevice(req,res,next){
-        UserDevice.findOne({where: {id: req.params.id}})
+        Device.findOne({where: {id: req.params.id}})
         .then(device=>{
-            res.status(201).json(device)
+            if (!device) {
+                throw({ name: `DEVICE_NOT_FOUND`, })
+            } else {
+                res.status(200).json(device)
+            }
         })
         .catch((err)=>{
+            // console.log(err, '<<<');
             next(err)
         })
     }
@@ -55,7 +60,7 @@ class DeviceControllers {
         })
         .catch((err)=>{
             console.log(err, "ini error")
-            // next(err)
+            next(err)
         })
     }
 
@@ -66,12 +71,12 @@ class DeviceControllers {
             order: [['createdAt', 'DESC']]
         })
         .then(function(histories){
-            console.log(histories);
-            res.status(201).json(histories)
+            // console.log(histories);
+            res.status(200).json(histories)
         })
         .catch ((err) =>{
             // next(err)
-            console.log(err, "error show history");
+            // console.log(err, "error show history");
             res.status(500).json({
                 message: "Gagal memuat User"
             })
@@ -83,7 +88,7 @@ class DeviceControllers {
             order: [['createdAt', 'DESC']], limit: 1
         })
         .then(function(currentLocation){
-            res.status(201).json(currentLocation)
+            res.status(200).json(currentLocation)
         })
         .catch ((err) =>{
             // next(err)

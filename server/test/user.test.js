@@ -64,11 +64,11 @@ describe('POST /register', () => {
                 done()
             })
     })
-    it('Password less then 5 characters, return status code 400 with message', (done) => {
+    it('Password less then 6 characters, return status code 400 with message', (done) => {
         let registerUser = {
-            name: 'user',
-            email: 'user@example.com',
-            password: '1234',
+            name: 'asd',
+            email: 'asd@example.com',
+            password: '123',
         }
         request(app)
             .post('/register')
@@ -82,8 +82,8 @@ describe('POST /register', () => {
     })
     it('Password more then 10 characters, return status code 400 with message', (done) => {
         let registerUser = {
-            name: 'user',
-            email: 'user@example.com',
+            name: 'asd',
+            email: 'asd@example.com',
             password: '12345678901',
         }
         request(app)
@@ -101,6 +101,7 @@ describe('POST /register', () => {
 describe('POST /login', () => {
     it('Success login, return status code 200 with token', (done) => {
         let loginUser = {
+            name: 'User',
             email: 'user@example.com',
             password: '1234567',
         }
@@ -111,8 +112,8 @@ describe('POST /login', () => {
                 const { body, status } = response
                 expect(status).toBe(200)
                 expect(body).toHaveProperty('id', expect.any(Number))
-                expect(body).toHaveProperty('name', expect.any(String))
-                expect(body).toHaveProperty('email', user.email)
+                expect(body).toHaveProperty('name', loginUser.name)
+                expect(body).toHaveProperty('email', loginUser.email)
                 expect(body).toHaveProperty('token', expect.any(String))
                 id = body.id
                 done()
@@ -128,8 +129,8 @@ describe('POST /login', () => {
             .send(loginUser)
             .then((response) => {
                 const { body, status } = response
-                expect(status).toBe(404)
-                expect(body).toHaveProperty('message', expect.any(Array))
+                expect(status).toBe(400)
+                expect(body).toHaveProperty('message', expect.any(String))
                 done()
             })
     })
@@ -144,53 +145,8 @@ describe('POST /login', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(Array))
+                expect(body).toHaveProperty('message', expect.any(String))
                 done()
             })
     })
 })
-
-// describe('PUT /profile/:id', () => {
-//     it('Success update, return status code 200 with data update', (done) => {
-//         let updateUser = {
-//             name: 'userUpdate',
-//         }
-//         request(app)
-//             .post(`/profile/${id}`)
-//             .send(updateUser)
-//             .then((response) => {
-//                 const { body, status } = response
-//                 expect(status).toBe(400)
-//                 expect(body).toHaveProperty('name', updateUser.name)
-//                 done()
-//             })
-//     })
-//     it('Empty attributes, return status code 400 data update', (done) => {
-//         let updateUser = {
-//             name: '',
-//         }
-//         request(app)
-//             .post(`/profile/${id}`)
-//             .send(updateUser)
-//             .then((response) => {
-//                 const { body, status } = response
-//                 expect(status).toBe(400)
-//                 expect(body).toHaveProperty('name', expect.any(String))
-//                 done()
-//             })
-//     })
-// })
-
-// describe(`DELETE /profile/:id`, () => {
-//     it(`Success delete, return status code 200 with message`, (done) => {
-//         request(app)
-//             .delete(`/profile/1`)
-//             .set('token', token)
-//             .then((response) => {
-//                 const { body, status } = response
-//                 expect(status).toBe(200)
-//                 expect(body).toHaveProperty('message', expect.any(String))
-//                 done()
-//             })
-//     })
-// })
