@@ -2,9 +2,7 @@ const {User, Device} = require('../models')
 const jwt = require('jsonwebtoken')
 
 function authentication (req,res,next) {
-    // console.log(req.headers, "headers")
     const {token} = req.headers
-    // console.log(token, "token auth")
     if( !token ){
         next({name: "TOKEN_ERROR"})
     } else {
@@ -22,9 +20,7 @@ function authentication (req,res,next) {
 }
 
 function cartAuthentication (req,res,next) {
-    // console.log(req.headers, "headers")
     const {token} = req.headers
-    // console.log(token, "token auth")
     if( !token ){
         next({name: "TOKEN_ERROR"})
     } else {
@@ -42,8 +38,6 @@ function cartAuthentication (req,res,next) {
 }
 
 function cartAuthorization (req,res,next) {
-    // console.log(req.userData.id," ini userid auth")
-    // User.findAll()
     const id = req.params.id
     Cart.findByPk(id)
     .then(data=>{
@@ -52,7 +46,6 @@ function cartAuthorization (req,res,next) {
         } else if( data.CustomerId !== req.userData.id ){
             next({name: "NOT_AUTHRORIZED"})
         } else {
-            // console.log(data, "ini next cart authorization")
             next()
         }
     })
@@ -62,8 +55,6 @@ function cartAuthorization (req,res,next) {
 }
 
 function authorization (req,res,next) {
-    // console.log(req.userData.id," ini userid auth")
-    // User.findAll()
     User.findOne({where: {id: req.userData.id}})
     .then(data=>{
         if( !data ){

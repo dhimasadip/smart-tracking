@@ -17,13 +17,16 @@ route.get('/', DeviceControllers.showAllDevice)
 // /device --> show satu device
 route.get('/:id', DeviceControllers.showOneDevice)
 
-// /device/:id/history --> semua lokasi
+
 route.post('/:id/histories', DeviceControllers.addHistory)
 
 // /device/:id/history --> semua lokasi
 route.get('/:id/histories', DeviceControllers.showHistory)
 
+route.delete('/:id/histories', DeviceControllers.deleteHistory)
+
 // /device/:id/current --> last location
 route.get('/:id/current', DeviceControllers.showLastLocation)
+
 
 module.exports = route
