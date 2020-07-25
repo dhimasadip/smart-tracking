@@ -18,10 +18,10 @@ route.get('/', DeviceControllers.showAllDevice)
 route.get('/:id', DeviceControllers.showOneDevice)
 
 // /device/:id/history --> semua lokasi
-route.post('/:id/history', DeviceControllers.addHistory)
+route.post('/:id/histories', DeviceControllers.addHistory)
 
 // /device/:id/history --> semua lokasi
-route.get('/:id/history', DeviceControllers.showHistory)
+route.get('/:id/histories', DeviceControllers.showHistory)
 
 // /device/:id/current --> last location
 route.get('/:id/current', DeviceControllers.showLastLocation)

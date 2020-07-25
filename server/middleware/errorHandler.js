@@ -1,5 +1,5 @@
 function errorHandler(err, req, res, next) {
-    console.log(err, "console log err error handler")
+    // console.log(err, "console log err error handler")
 
     let statusCode = null
     let errorMessage = null
@@ -42,10 +42,10 @@ function errorHandler(err, req, res, next) {
             errorMessage = 'Username atau password salah'
             break
 
-        case 'PRODUCT_NOT_FOUND':
+        case 'DEVICE_NOT_FOUND':
             statusCode = 404
             errorCode = err.name
-            errorMessage = 'Product not found'
+            errorMessage = 'Device not found'
             break
             
         case 'STOCK_KURANG':
@@ -74,6 +74,16 @@ function errorHandler(err, req, res, next) {
                 validationErrors.push(element.message)
             });
             errorMessage = validationErrors
+            break
+
+        case 'SequelizeDatabaseError':
+            statusCode = 400
+            errorCode = 'DATABASE_ERROR'
+            // const databaseErrors = []
+            // err.errors.forEach(element => {
+            //     databaseErrors.push(element.message)
+            // });
+            errorMessage = err.errors || `must be number`
             break 
 
         default:
