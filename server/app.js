@@ -1,6 +1,6 @@
-if( process.env.NODE_ENV == 'development' ){
-    require('dotenv').config()
-}
+// if( process.env.NODE_ENV == 'development' ){
+//     require('dotenv').config()
+// }
 
 const express = require('express')
 const app = express()
@@ -13,11 +13,11 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use('/', routes)
-if( process.env.NODE_ENV != 'test' ){
-    app.listen(port, ()=>{
-        console.log(port)
-    })
-}
+// if( process.env.NODE_ENV != 'test' ){
+//     app.listen(port, ()=>{
+//         console.log(port)
+//     })
+// }
 
 app.use(errorHandler)
 

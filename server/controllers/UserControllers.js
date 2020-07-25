@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken')
 class UserControllers {
 
     static register(req, res, next) {
-
         User.findOne({ where: { email: req.body.email } })
             .then(data => {
                 if (!data) {
@@ -16,7 +15,9 @@ class UserControllers {
                     }
                     return User.create(obj)
                 } else {
-                    res.status(201).json(data)
+                    throw ({
+                        name: 'EMAIL_ALREADY_REGISTER'
+                    })
                 }
             })
             .then(user => {
@@ -42,7 +43,7 @@ class UserControllers {
                         token
                     })
                 } else {
-                    res.status(400).json({ message: "Username or password salah" })
+                    throw({ name: "USERNAME_PASSWORD_SALAH" })
                 }
             })
             .catch(err => {

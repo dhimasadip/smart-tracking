@@ -17,7 +17,10 @@ class DeviceControllers {
     }
 
     static showAllDevice(req,res,next){
-        Device.findAll({where: {UserId: req.userData.id},order: [['id', 'ASC']]})
+        Device.findAll({
+            where: {UserId: req.userData.id},
+            order: [['id', 'ASC']]
+        })
         .then(devices=>{
             res.status(200).json(devices)
         })
@@ -51,7 +54,6 @@ class DeviceControllers {
             res.status(201).json(history)
         })
         .catch((err)=>{
-            console.log(err, "ini error")
             next(err)
         })
     }
@@ -62,16 +64,10 @@ class DeviceControllers {
             order: [['createdAt', 'DESC']]
         })
         .then((device) => {
-            if (!device) {
-                throw({ name: `DEVICE_NOT_FOUND`, })
-            } else {
                 res.status(200).json(device)
-            }
         })
         .catch ((err) =>{
-            res.status(500).json({
-                message: "Gagal memuat User"
-            })
+            next(err)
         })
     }
 
@@ -102,10 +98,7 @@ class DeviceControllers {
             res.status(200).json(currentLocation)
         })
         .catch ((err) =>{
-            // next(err)
-            res.status(500).json({
-                message: "Gagal memuat User"
-            })
+            next(err)
         })
     }
 

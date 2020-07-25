@@ -188,20 +188,20 @@ describe('GET /devices/:id/current', () => {
   })
   it(`Device not found, return status code 404 with message`, (done) => {
     request(app)
-    .delete(`/devices/77/histories`)
-    .set('token', token)
-    .then((response) => {
-      const { body, status } = response
-      expect(status).toBe(404)
-      expect(body).toHaveProperty('message', expect.any(String))
-      done()
-    })
-})
+      .delete(`/devices/77/histories`)
+      .set('token', token)
+      .then((response) => {
+        const { body, status } = response
+        expect(status).toBe(404)
+        expect(body).toHaveProperty('message', expect.any(String))
+        done()
+      })
+  })
 })
 
 describe(`DELETE /devices/:id/histories/`, () => {
   it(`Success delete, return status code 200 with message`, (done) => {
-      request(app)
+    request(app)
       .delete(`/devices/${id}/histories`)
       .set('token', token)
       .then((response) => {
@@ -213,8 +213,39 @@ describe(`DELETE /devices/:id/histories/`, () => {
   })
 
   it(`Device not found, return status code 404 with message`, (done) => {
-      request(app)
+    request(app)
       .delete(`/devices/77/histories`)
+      .set('token', token)
+      .then((response) => {
+        const { body, status } = response
+        expect(status).toBe(404)
+        expect(body).toHaveProperty('message', expect.any(String))
+        done()
+      })
+  })
+})
+
+token = ''
+
+describe('GET /devices/:id/histories', () => {
+  it(`Token not found, return status code 404 with message`, (done) => {
+    token = ''
+    request(app)
+      .get(`/devices/${id}/histories`)
+      .set('token', token)
+      .then((response) => {
+        const { body, status } = response
+        expect(status).toBe(404)
+        expect(body).toHaveProperty('message', expect.any(String))
+        done()
+      })
+  })
+})
+describe('DELETE /devices/:id/histories/', () => {
+  it(`Token not found, return status code 404 with message`, (done) => {
+    token = ''
+    request(app)
+      .delete(`/devices/${id}/histories`)
       .set('token', token)
       .then((response) => {
         const { body, status } = response

@@ -32,6 +32,22 @@ describe('POST /register', () => {
                 done()
             })
     })
+    it('Success register, return status code 201 with data user', (done) => {
+        let registerUser = {
+            name: 'User',
+            email: 'user@example.com',
+            password: '1234567',
+        }
+        request(app)
+            .post('/register')
+            .send(registerUser)
+            .then((response) => {
+                const { body, status } = response
+                expect(status).toBe(401)
+                expect(body).toHaveProperty('message', expect.any(String))
+                done()
+            })
+    })
     it('Empty attributes, return status code 400 with message', (done) => {
         let registerUser = {
             name: '',

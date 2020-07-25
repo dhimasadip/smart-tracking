@@ -12,32 +12,14 @@ function errorHandler(err, req, res, next) {
             errorMessage = 'Token not found'
             break
 
-        case 'USER_NOT_FOUND':
-            statusCode = 404
-            errorCode = err.name
-            errorMessage = 'User not found'
-            break 
-
-        case 'CART_NOT_FOUND':
-            statusCode = 404
-            errorCode = err.name
-            errorMessage = 'Cart not found'
-        break 
-
-        case 'AUTHENTICATION_FAILED':
+        case 'EMAIL_ALREADY_REGISTER':
             statusCode = 401
             errorCode = err.name
-            errorMessage = 'Authentication failed'
-            break 
-
-        case 'USERNAME_SUDAH_ADA':
-            statusCode = 401
-            errorCode = err.name
-            errorMessage = ['Username sudah ada']
+            errorMessage = 'Email already register'
             break 
 
         case 'USERNAME_PASSWORD_SALAH':
-            statusCode = 401
+            statusCode = 400
             errorCode = err.name
             errorMessage = 'Username atau password salah'
             break
@@ -47,24 +29,6 @@ function errorHandler(err, req, res, next) {
             errorCode = err.name
             errorMessage = 'Device not found'
             break
-            
-        case 'STOCK_KURANG':
-            statusCode = 400
-            errorCode = err.name
-            errorMessage = 'Stock tidak cukup'
-            break 
-        
-        case 'MINIMUM_PURCHASE':
-            statusCode = 400
-            errorCode = err.name
-            errorMessage = 'Minimal 1'
-            break 
-
-        case 'NOT_AUTHRORIZED':
-            statusCode = 401
-            errorCode = err.name
-            errorMessage = 'Ure not authorized'
-            break 
 
         case 'SequelizeValidationError':
             statusCode = 400
@@ -79,10 +43,6 @@ function errorHandler(err, req, res, next) {
         case 'SequelizeDatabaseError':
             statusCode = 400
             errorCode = 'DATABASE_ERROR'
-            // const databaseErrors = []
-            // err.errors.forEach(element => {
-            //     databaseErrors.push(element.message)
-            // });
             errorMessage = err.errors || `must be number`
             break 
 
@@ -95,7 +55,6 @@ function errorHandler(err, req, res, next) {
     return res.status(statusCode).json({
         message: errorMessage
     })
-
 }
 
 module.exports = errorHandler
