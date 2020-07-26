@@ -43,7 +43,7 @@ class UserControllers {
                         token
                     })
                 } else {
-                    throw({ name: "USERNAME_PASSWORD_SALAH" })
+                    throw ({ name: "USERNAME_PASSWORD_SALAH" })
                 }
             })
             .catch(err => {

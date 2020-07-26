@@ -1,6 +1,6 @@
 const route = require('express').Router()
 const DeviceControllers = require('../controllers/DeviceControllers')
-const {authentication} = require('../middleware/auth')
+const { authentication } = require('../middleware/auth')
 
 route.use(authentication)
 route.post('/', DeviceControllers.addDevice)
