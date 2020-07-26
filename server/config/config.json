@@ -1,14 +1,14 @@
 {
   "development": {
     "username": "postgres",
-    "password": "postgres",
+    "password": "1234",
     "database": "Security_Tracking",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "postgres",
+    "password": "1234",
     "database": "Security_Tracking_Test",
     "host": "127.0.0.1",
     "dialect": "postgres"

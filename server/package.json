@@ -4,7 +4,7 @@
   "description": "Smart Tracking System",
   "main": "app.js",
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles --forceExit",
+    "test": "jest --runInBand --detectOpenHandles --forceExit --coverage",
     "dev": "nodemon app.js"
   },
   "keywords": [],
