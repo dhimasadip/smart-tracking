@@ -1,20 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Polyline,
   Marker
 } from "react-google-maps";
+import { useSelector, useDispatch } from 'react-redux';
+import { getCurrent } from '../store/actions/currentAction';
 
-export default function MapsPolygon() {
+export default function LiveLocation() {
+  const dispatch = useDispatch();
+  const { current } = useSelector(state => state.currentReducer);
+
+  useEffect( () => {
+    dispatch(getCurrent());
+  }, [dispatch])
+
   const InternalMap = props => (
-    <GoogleMap defaultZoom={7} defaultCenter={{ lat: -34.897, lng: 151.144 }}>
-      <Polyline
-        path={[{ lat: -34.397, lng: 150.644 }, { lat: -34.6, lng: 150.670 }, { lat: -35.397, lng: 151.644 }]}
-      />
-      <Marker position={{ lat: -34.397, lng: 150.644  }}/>
-      <Marker position={{ lat: -35.397, lng: 151.644  }}/>
+    <GoogleMap defaultZoom={7} defaultCenter={{ lat: current.latitude, lng: current.longitude }}>
+      <Marker position={{ lat: current.latitude, lng: current.longitude  }}/>
     </GoogleMap>
   );
   
@@ -31,6 +35,7 @@ export default function MapsPolygon() {
   return (
     <div>
       <MyMapComponent/>
+      {/* {JSON.stringify(current)} */}
     </div>
   )
 }
