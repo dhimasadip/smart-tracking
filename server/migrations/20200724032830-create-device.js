@@ -8,8 +8,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      DeviceCode: {
-        type: Sequelize.INTEGER
+      deviceCode: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

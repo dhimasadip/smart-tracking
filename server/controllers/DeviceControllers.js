@@ -3,17 +3,33 @@ const { Device, History } = require('../models')
 class DeviceControllers {
 
     static addDevice(req, res, next) {
-        let obj = {
-            UserId: req.userData.id,
-            DeviceCode: req.body.DeviceCode
-        }
-        Device.create(obj)
-            .then((product) => {
-                res.status(201).json(product)
+        const { deviceCode } = req.body
+
+        Device.create({ deviceCode })
+            .then((device) => {
+                res.status(201).json(device)
             })
             .catch((err) => {
+                console.log(err)
                 next(err)
             })
+    }
+
+    static pairDevice(req, res, next) {
+
+        const { deviceCode } = req.body
+        Device.findOne({
+            where: deviceCode
+        })
+        .then(data => {
+            if (data) {
+                res.status(200).json(data)
+            }
+        })
+        .catch((err) => {
+            next(err)
+        })
+
     }
 
     static showAllDevice(req, res, next) {
@@ -25,6 +41,7 @@ class DeviceControllers {
                 res.status(200).json(devices)
             })
             .catch((err) => {
+                console.log(err)
                 next(err)
             })
     }
