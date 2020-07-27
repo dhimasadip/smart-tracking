@@ -1,8 +1,20 @@
 const router = require('express').Router()
-const userRoute = require('./userRoute')
-const deviceRoute = require('./deviceRoute')
+const UserRoute = require('./UserRoute')
+const DeviceRoute = require('./DeviceRoute')
+const BuzzerRoute = require('./BuzzerRoute')
+const StatusRoute = require('./StatusRoute')
+const HistoryRoute = require('./HistoryRoute')
+const ConnectionRoute = require('./ConnectionRoute')
 
-router.use('/', userRoute)
-router.use('/devices', deviceRoute)
+router.get('/', (req, res, next) => {
+    res.status(200).json({ statusCode: 200 })
+})
+
+router.use('/', UserRoute)
+router.use('/devices', DeviceRoute)
+router.use('/pairing', ConnectionRoute)
+router.use('/buzzer', BuzzerRoute)
+router.use('/status', StatusRoute)
+router.use('/location', HistoryRoute)
 
 module.exports = router

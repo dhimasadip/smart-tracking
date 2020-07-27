@@ -1,15 +1,15 @@
-const route = require('express').Router()
-const DeviceControllers = require('../controllers/DeviceControllers')
-const { authentication } = require('../middleware/auth')
+const router = require('express').Router()
+const DeviceController = require('../controllers/DeviceController')
+const HistoryController = require('../controllers/HistoryController')
+const StatusDeviceController = require('../controllers/StatusDeviceController')
+const authentication = require('../middlewares/authentication')
 
-route.use(authentication)
-route.post('/', DeviceControllers.addDevice)
-route.post('/pairing', DeviceControllers.pairDevice)
-route.get('/', DeviceControllers.showAllDevice)
-// route.get('/:id', DeviceControllers.showOneDevice)
-// route.post('/:id/histories', DeviceControllers.addHistory)
-// route.get('/:id/histories', DeviceControllers.showHistory)
-// route.delete('/:id/histories', DeviceControllers.deleteHistory)
-// route.get('/:id/current', DeviceControllers.showLastLocation)
+router.use(authentication)
+router.get('/:id', StatusDeviceController.getStatus)
+router.get('/:id/histories', HistoryController.getHistory)
+router.get('/:id/current', HistoryController.currentLocation)
+router.get('/', DeviceController.listDevice)
+router.post('/', DeviceController.addDevice)
 
-module.exports = route
+
+module.exports = router

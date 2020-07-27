@@ -1,10 +1,10 @@
 'use strict';
-const bcrypt = require('bcrypt')
-const salt = bcrypt.genSaltSync(5)
-
 const {
   Model
 } = require('sequelize');
+const bcrypt = require('bcrypt')
+const salt = bcrypt.genSaltSync(10)
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -14,48 +14,49 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Device)
+      User.hasMany(models.Connection, { foreignKey: 'UserId', targetKey: 'id' })
     }
   };
   User.init({
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
       validate: {
-        notNull: {
-          msg: 'Please fill the name'
-        }, notEmpty : {
-          msg: 'Please fill the name'
+        notEmpty: {
+          args: false,
+          msg: `Name can't be empty`
+        },
+        len: {
+          args: [2,20],
+          msg: 'Name at least 2-20 characters'
         }
       }
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
       validate: {
         isEmail: {
-          args: true,
-          msg: 'Please fill the email'
-        }, notEmpty : {
-          msg: 'Please fill the email'
+          args: false,
+          msg: 'Wrong email format'
         }
       }
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: {
-          args: [6, 10],
-          msg: `Password must be between 6 & 10 characters`
-        }
+      notEmpty: {
+        args: false,
+        msg: `Password can't be empty`
+      },
+      len: {
+        args: [8,14],
+        msg: 'Password at least 8-14 characters'
       }
     }
   }, {
     hooks: {
-      beforeCreate: (user, options) => {
-        user.password = bcrypt.hashSync(user.password, salt)
+      beforeCreate: (instance) => {
+        if(instance.password.trim() !== '') {
+          instance.password = bcrypt.hashSync(instance.password, salt)
+        }
       }
     },
     sequelize,

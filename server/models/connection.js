@@ -3,10 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const Sequelize = sequelize.Sequelize
-  const Model = Sequelize.Model
-
-  class UserDevice extends Model {
+  class Connection extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,21 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      UserDevice.belongsTo(models.User)
-      UserDevice.hasOne(models.Device)
+      Connection.belongsTo(models.User, { foreignKey: 'UserId', targetKey: 'id' })
+      Connection.belongsTo(models.Device, { foreignKey: 'DeviceId', targetKey: 'id' })
     }
   };
-  UserDevice.init({
-    id: {
-      autoIncrement: true,
-      primaryKey: true,
-      type: Sequelize.INTEGER
-    },
+  Connection.init({
     UserId: DataTypes.INTEGER,
     DeviceId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'UserDevice',
+    modelName: 'Connection',
   });
-  return UserDevice;
+  return Connection;
 };

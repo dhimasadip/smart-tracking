@@ -1,18 +1,21 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('UserDevices', {
+    await queryInterface.createTable('Histories', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      UserId: {
-        type: Sequelize.INTEGER
-      },
       DeviceId: {
         type: Sequelize.INTEGER
+      },
+      latitude: {
+        type: Sequelize.FLOAT
+      },
+      longitude: {
+        type: Sequelize.FLOAT
       },
       createdAt: {
         allowNull: false,
@@ -25,6 +28,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('UserDevices');
+    await queryInterface.dropTable('Histories');
   }
 };

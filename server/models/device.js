@@ -11,12 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Device.belongsTo(models.User)
-      Device.hasMany(models.History)
+      Device.hasOne(models.Connection, { foreignKey: 'DeviceId', targetKey: 'id' })
+      Device.hasMany(models.History, { targetKey: 'DeviceId', targetKey: 'id' })
+      Device.hasMany(models.Buzzer, { targetKey: 'DeviceId', targetKey: 'id' })
     }
   };
   Device.init({
-    deviceCode: DataTypes.STRING
+    deviceSerial: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Device',
