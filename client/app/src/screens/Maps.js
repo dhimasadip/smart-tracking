@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { Marker, Polyline } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { getHistories } from '../store/actions/historyAction';
+import pointer from '../../assets/pointerCar.png';
 
 export default function Maps() {
   const dispatch = useDispatch();
@@ -10,8 +11,8 @@ export default function Maps() {
   const [region, setRegion] = useState({
     latitude: -6.266113167,
     longitude: 106.874190333,
-    latitudeDelta: 0.009,
-    longitudeDelta: 0.009
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01
   });
 
   useEffect( () => {
@@ -33,8 +34,17 @@ export default function Maps() {
         region={region}
         onRegionChangeComplete={region => setRegion(region)}
       >
-     <Marker coordinate={{ latitude: histories[0].latitude, longitude: histories[0].longitude }}/> 
-     <Marker coordinate={{ latitude: histories[histories.length-1].latitude, longitude: histories[histories.length-1].longitude }}/>
+     <Marker coordinate={{ latitude: histories[0].latitude, longitude: histories[0].longitude }}>
+     <Image 
+          source={pointer}
+          style={{width:32, height:32}}
+        />
+      </Marker> 
+     <Marker coordinate={{ latitude: histories[histories.length-1].latitude, longitude: histories[histories.length-1].longitude }}><Image 
+          source={pointer}
+          style={{width:32, height:32}}
+        />
+      </Marker>
       <Polyline coordinates={histories} />
       </MapView>
     </View>

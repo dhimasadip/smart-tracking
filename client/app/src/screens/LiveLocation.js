@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import MapView, { Marker, Polyline } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCurrent } from '../store/actions/currentAction';
+import CurrentLocation from '../components/CurrentLocation';
+import pointer from '../../assets/pointerCar.png'
 
 export default function Maps() {
   const dispatch = useDispatch();
@@ -16,6 +18,14 @@ export default function Maps() {
 
   useEffect( () => {
     dispatch(getCurrent());
+    if(current) {
+      setRegion({
+        latitude: current.latitude,
+        longitude: current.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05
+      })
+    }
   }, [dispatch])
 
   if(!current) {
@@ -28,13 +38,26 @@ export default function Maps() {
 
   return (
     <View style={styles.container}>
+      <CurrentLocation currLoc={() => centerMap(region)} />
       <MapView style={styles.mapStyle} 
       region={region}
       onRegionChangeComplete={region => setRegion(region)}>
-      <Marker coordinate={{ latitude: current.latitude, longitude: current.longitude }}/> 
+      {/* <Marker coordinate={{ latitude: current.latitude, longitude: current.longitude }}/>  */}
+      <Marker 
+        coordinate={{ latitude: current.latitude, longitude: current.longitude }}
+      >
+        <Image 
+          source={pointer}
+          style={{width:32, height:32}}
+        />
+      </Marker>
       </MapView>
     </View>
   )
+}
+
+const centerMap = (region) => {
+  this.map.animateToRegion(region)
 }
 
 const styles = StyleSheet.create({

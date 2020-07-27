@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './src/store';
 import Home from './src/screens/Home.js';
 import Maps from './src/screens/Maps.js';
+import CallPolice from './src/screens/CallPolice.js';
 import LiveLocation from './src/screens/LiveLocation.js';
 import Scanner from './src/screens/Scanner.js';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -20,6 +21,7 @@ export default function App() {
           <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="Maps" component={Maps} />
           <Drawer.Screen name="Current Location" component={LiveLocation} />
+          <Drawer.Screen name="Call Police" component={CallPolice} />
           <Drawer.Screen name="Scanner" component={Scanner} />
         </Drawer.Navigator>
       </NavigationContainer>
