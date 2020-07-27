@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       UserDevice.belongsTo(models.User)
-      UserDevice.belongsTo(models.Device)
+      UserDevice.hasOne(models.Device)
     }
   };
   UserDevice.init({
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type: Sequelize.INTEGER
     },
     UserId: DataTypes.INTEGER,
-    DeviceCode: DataTypes.INTEGER
+    DeviceId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'UserDevice',

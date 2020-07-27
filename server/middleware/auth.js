@@ -7,9 +7,9 @@ function authentication(req, res, next) {
         next({ name: "TOKEN_ERROR" })
     } else {
         let decode = jwt.verify(token, 'admin')
-        req.userData = decode
-        User.findByPk(req.userData.id)
+        User.findByPk(decode.id)
             .then(data => {
+                req.userData = decode
                 next()
             })
     }
