@@ -21,18 +21,16 @@ export default function Maps() {
   if(!current) {
     return (
       <View style={styles.container}>
-        Loading...
+        <Text>Loading...</Text>
       </View>
     )
   }
 
   return (
     <View style={styles.container}>
-      
       <MapView style={styles.mapStyle} 
       region={region}
-      onRegionChangeComplete={region => setRegion(region)}
-      >
+      onRegionChangeComplete={region => setRegion(region)}>
       <Marker coordinate={{ latitude: current.latitude, longitude: current.longitude }}/> 
       </MapView>
     </View>

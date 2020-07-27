@@ -18,10 +18,10 @@ export default function Maps() {
     dispatch(getHistories());
   }, [dispatch])
 
-  if(!histories) {
+  if(histories.length==0) {
     return (
       <View style={styles.container}>
-        Loading...
+        <Text>Loading...</Text>
       </View>
     )
   }
@@ -30,8 +30,8 @@ export default function Maps() {
     <View style={styles.container}>
       
       <MapView style={styles.mapStyle} 
-      region={region}
-      onRegionChangeComplete={region => setRegion(region)}
+        region={region}
+        onRegionChangeComplete={region => setRegion(region)}
       >
      <Marker coordinate={{ latitude: histories[0].latitude, longitude: histories[0].longitude }}/> 
      <Marker coordinate={{ latitude: histories[histories.length-1].latitude, longitude: histories[histories.length-1].longitude }}/>
