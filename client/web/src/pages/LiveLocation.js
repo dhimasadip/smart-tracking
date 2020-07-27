@@ -3,7 +3,8 @@ import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
+  DirectionsRenderer
 } from "react-google-maps";
 import { useSelector, useDispatch } from 'react-redux';
 import { getCurrent } from '../store/actions/currentAction';
@@ -19,6 +20,7 @@ export default function LiveLocation() {
   const InternalMap = props => (
     <GoogleMap defaultZoom={7} defaultCenter={{ lat: current.latitude, lng: current.longitude }}>
       <Marker position={{ lat: current.latitude, lng: current.longitude  }}/>
+      <DirectionsRenderer origin={{ lat: 40.756795, lng: -73.954298 }} destination={{ lat: 41.756795, lng: -78.954298 }} />
     </GoogleMap>
   );
   
@@ -32,10 +34,17 @@ export default function LiveLocation() {
       mapElement={<div style={{ height: `100%` }} />}
     />
   );
+
+  if(!current) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
   return (
     <div>
       <MyMapComponent/>
-      {/* {JSON.stringify(current)} */}
     </div>
   )
 }

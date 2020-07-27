@@ -18,7 +18,14 @@ export default function Maps() {
     dispatch(getCurrent());
   }, [dispatch])
 
-  
+  if(!current) {
+    return (
+      <View style={styles.container}>
+        Loading...
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       
@@ -26,7 +33,7 @@ export default function Maps() {
       region={region}
       onRegionChangeComplete={region => setRegion(region)}
       >
-      {current? <Marker coordinate={{ latitude: current.latitude, longitude: current.longitude }}/> : ''}
+      <Marker coordinate={{ latitude: current.latitude, longitude: current.longitude }}/> 
       </MapView>
     </View>
   )

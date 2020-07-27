@@ -17,12 +17,12 @@ export default function MapsHistory() {
   }, [dispatch])
 
   const InternalMap = props => (
-    <GoogleMap defaultZoom={7} defaultCenter={{ lat: -34.897, lng: 151.144 }}>
+    <GoogleMap defaultZoom={7} defaultCenter={histories[0]}>
       <Polyline
-        path={[{ lat: -34.397, lng: 150.644 }, { lat: -34.6, lng: 150.670 }, { lat: -35.397, lng: 151.644 }]}
+        path={histories}
       />
-      <Marker position={{ lat: -34.397, lng: 150.644  }}/>
-      <Marker position={{ lat: -35.397, lng: 151.644  }}/>
+      <Marker position={histories[0]}/>
+      <Marker position={histories[histories.length-1]}/>
     </GoogleMap>
   );
   
@@ -36,6 +36,13 @@ export default function MapsHistory() {
       mapElement={<div style={{ height: `100%` }} />}
     />
   );
+  if(!histories) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
   return (
     <div>
       <MyMapComponent/>

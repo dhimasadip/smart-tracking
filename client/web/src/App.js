@@ -50,7 +50,7 @@ export default function App() {
 
               <div className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Device
+                    User
                   </a>
                   <div className="dropdown-menu" aria-labelledby="navbarDropdown1">
                     <Link className="dropdown-item" to="/users">Logout</Link>

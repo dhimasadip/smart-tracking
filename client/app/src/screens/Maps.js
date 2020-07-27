@@ -18,7 +18,14 @@ export default function Maps() {
     dispatch(getHistories());
   }, [dispatch])
 
-  
+  if(!histories) {
+    return (
+      <View style={styles.container}>
+        Loading...
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       
@@ -26,8 +33,8 @@ export default function Maps() {
       region={region}
       onRegionChangeComplete={region => setRegion(region)}
       >
-      {histories.length>0? <Marker coordinate={{ latitude: histories[0].latitude, longitude: histories[0].longitude }}/> : ''}
-      {histories.length>0? <Marker coordinate={{ latitude: histories[histories.length-1].latitude, longitude: histories[histories.length-1].longitude }}/> : ''}
+     <Marker coordinate={{ latitude: histories[0].latitude, longitude: histories[0].longitude }}/> 
+     <Marker coordinate={{ latitude: histories[histories.length-1].latitude, longitude: histories[histories.length-1].longitude }}/>
       <Polyline coordinates={histories} />
       </MapView>
     </View>
