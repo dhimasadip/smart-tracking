@@ -44,7 +44,7 @@ export default function Maps() {
     showMode('time');
   };
 
-  const [date2, setDate2] = useState(Date());
+  const [date2, setDate2] = useState(new Date(Date.now()));
   const [mode2, setMode2] = useState('date');
   const [show2, setShow2] = useState(false);
 
