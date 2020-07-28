@@ -10,7 +10,7 @@ import person from '../../assets/person.png';
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
 
-export default function Maps() {
+export default function LiveLocation({ navigation }) {
   const dispatch = useDispatch();
   const { current } = useSelector(state => state.currentReducer);
   const [region, setRegion] = useState({
@@ -44,13 +44,13 @@ export default function Maps() {
     setUserLocation(currRegion)
   }
 
-  useEffect( () => {
+  useEffect(() => {
     dispatch(getCurrent());
     getLocation();
     getLocationUser();
   }, [dispatch])
 
-  if(!current) {
+  if (!current) {
     return (
       <View style={styles.container}>
         <Text>Loading...</Text>
@@ -59,7 +59,7 @@ export default function Maps() {
   }
 
   async function getLocation() {
-    const res = await fetch(`http://54.255.56.32:3000/devices/1/current`,{
+    const res = await fetch(`http://54.255.56.32:3000/devices/1/current`, {
       headers: {
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTU5NTg2MTQxOH0.ynOGgRX4FYWF3gCAZIuGtt72kXsx3oMKtRfDwPYmtLk'
       }
@@ -73,11 +73,11 @@ export default function Maps() {
     })
   }
 
-  
 
-  
-  
-  
+
+
+
+
 
   return (
     <View style={styles.container}>
@@ -92,44 +92,44 @@ export default function Maps() {
           <Picker.Item label="JavaScript" value="js" />
         </Picker>
       </View> */}
-      <MapView style={styles.mapStyle} 
-      region={region}
-      // onRegionChangeComplete={region => setRegion(region)}
-      ref={ref => (this.mapView = ref)}
-      initialRegion={region}>
-      {/* <Marker coordinate={{ latitude: current.latitude, longitude: current.longitude }}/>  */}
-      <Marker 
-        coordinate={region}
-      >
-        <Image 
-          source={pointer}
-          style={{width:32, height:32}}
-        />
-        <Callout tooltip>
-          <View>
-            <View style={styles.bubble}>
-              <Text style={styles.name}>Mobil Yaris B1234NHK</Text>
-              {/* <Text>A short description</Text> */}
-              {/* <Text>{JSON.stringify(current)}</Text> */}
-              <Text>Date: {JSON.stringify(new Date(current.createdAt)+0).substr(1,21)}</Text>
-              {/* <Image 
+      <MapView style={styles.mapStyle}
+        region={region}
+        // onRegionChangeComplete={region => setRegion(region)}
+        ref={ref => (this.mapView = ref)}
+        initialRegion={region}>
+        {/* <Marker coordinate={{ latitude: current.latitude, longitude: current.longitude }}/>  */}
+        <Marker
+          coordinate={region}
+        >
+          <Image
+            source={pointer}
+            style={{ width: 32, height: 32 }}
+          />
+          <Callout tooltip>
+            <View>
+              <View style={styles.bubble}>
+                <Text style={styles.name}>Mobil Yaris B1234NHK</Text>
+                {/* <Text>A short description</Text> */}
+                {/* <Text>{JSON.stringify(current)}</Text> */}
+                <Text>Date: {JSON.stringify(new Date(current.createdAt) + 0).substr(1, 21)}</Text>
+                {/* <Image 
                 style={styles.image}
                 source={pointer}
               /> */}
+              </View>
+              <View style={styles.arrowBorder} />
+              <View style={styles.arrow} />
             </View>
-            <View style={styles.arrowBorder} />
-            <View style={styles.arrow} />
-          </View>
-        </Callout>
-      </Marker>
+          </Callout>
+        </Marker>
 
-      <Marker 
-        coordinate={userLocation}
-      >
-        <Image 
-          source={person}
-          style={{width:32, height:32}}
-        />
+        <Marker
+          coordinate={userLocation}
+        >
+          <Image
+            source={person}
+            style={{ width: 32, height: 32 }}
+          />
         </Marker>
       </MapView>
     </View>
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
-  
+
   buttonsContainer: {
     zIndex: 9,
     position: 'absolute',
