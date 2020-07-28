@@ -4,7 +4,8 @@
   "description": "Smart Tracking",
   "main": "app.js",
   "scripts": {
-    "test": "jest -i --detectOpenHandles --forceExit"
+    "test": "jest -runInBand --detectOpenHandles --forceExit --coverage",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +20,8 @@
     "sequelize": "^6.3.3",
     "supertest": "^4.0.2",
     "test": "^0.6.0"
+  },
+  "devDependencies": {
+    "jest-cli": "^26.1.0"
   }
 }

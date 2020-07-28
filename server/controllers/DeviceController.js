@@ -26,8 +26,18 @@ class DeviceController {
 
                 res.status(201).json({ device: deviceData, alarm: buzzerData })
             })
-            .catch(() => {
-                next({ str_code: 'INTERNAL_SERVER_ERROR' })
+            .catch((err) => {
+                if (err.errors) {
+                    let err_data = err.errors.map(el => {
+                        return el.message
+                    })
+
+                    err_data = err_data.join('. ')
+
+                    next({ str_code: 'REGISTRATION_VALIDATION', err_data })
+                } else {
+                    next({ str_code: 'INTERNAL_SERVER_ERROR' })
+                }
             })
     }
 

@@ -1,9 +1,6 @@
 const request = require('supertest');
 const app = require('../app.js');
 const { queryInterface } = require('../models').sequelize;
-// const { generateToken } = require('../helpers/jwt.js');
-
-//token buat update, delete ?
 let id;
 
 afterAll((done) => {
@@ -13,12 +10,25 @@ afterAll((done) => {
         })
 })
 
+describe('GET /', () => {
+    it('Succes connect to endpoint /, return status code 200', (done) => {
+        request(app)
+            .get('/')
+            .then((response) => {
+                const { body, status } = response
+                expect(status).toBe(200)
+                expect(body).toHaveProperty('message', 'Welcome Smart Tracking')
+                done()
+            })
+    })
+})
+
 describe('POST /register', () => {
     it('Success register, return status code 201 with data user', (done) => {
         let registerUser = {
             name: 'User',
             email: 'user@example.com',
-            password: '1234567',
+            password: '12345678',
         }
         request(app)
             .post('/register')
@@ -32,19 +42,19 @@ describe('POST /register', () => {
                 done()
             })
     })
-    it('Success register, return status code 201 with data user', (done) => {
+    it('Email already register, return status code 401 with data user', (done) => {
         let registerUser = {
             name: 'User',
             email: 'user@example.com',
-            password: '1234567',
+            password: '12345678',
         }
         request(app)
             .post('/register')
             .send(registerUser)
             .then((response) => {
                 const { body, status } = response
-                expect(status).toBe(401)
-                expect(body).toHaveProperty('message', expect.any(String))
+                expect(status).toBe(400)
+                expect(body).toHaveProperty('message', 'Email already exist')
                 done()
             })
     })
@@ -60,7 +70,7 @@ describe('POST /register', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(Array))
+                expect(body).toHaveProperty('message', expect.any(String))
                 done()
             })
     })
@@ -68,7 +78,7 @@ describe('POST /register', () => {
         let registerUser = {
             name: 'user',
             email: 'useremail',
-            password: '1234567',
+            password: '12345678',
         }
         request(app)
             .post('/register')
@@ -76,11 +86,11 @@ describe('POST /register', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(Array))
+                expect(body).toHaveProperty('message', `Wrong email format`)
                 done()
             })
     })
-    it('Password less then 6 characters, return status code 400 with message', (done) => {
+    it('Password less then 8 characters, return status code 400 with message', (done) => {
         let registerUser = {
             name: 'asd',
             email: 'asd@example.com',
@@ -92,15 +102,15 @@ describe('POST /register', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(Array))
+                expect(body).toHaveProperty('message', 'Password at least 8-14 characters')
                 done()
             })
     })
-    it('Password more then 10 characters, return status code 400 with message', (done) => {
+    it('Password more then 14 characters, return status code 400 with message', (done) => {
         let registerUser = {
             name: 'asd',
             email: 'asd@example.com',
-            password: '12345678901',
+            password: '123456789012345',
         }
         request(app)
             .post('/register')
@@ -108,7 +118,7 @@ describe('POST /register', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(Array))
+                expect(body).toHaveProperty('message', 'Password at least 8-14 characters')
                 done()
             })
     })
@@ -119,7 +129,7 @@ describe('POST /login', () => {
         let loginUser = {
             name: 'User',
             email: 'user@example.com',
-            password: '1234567',
+            password: '12345678',
         }
         request(app)
             .post('/login')
@@ -145,8 +155,8 @@ describe('POST /login', () => {
             .send(loginUser)
             .then((response) => {
                 const { body, status } = response
-                expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(String))
+                expect(status).toBe(404)
+                expect(body).toHaveProperty('message', `Email not found`)
                 done()
             })
     })
@@ -161,7 +171,7 @@ describe('POST /login', () => {
             .then((response) => {
                 const { body, status } = response
                 expect(status).toBe(400)
-                expect(body).toHaveProperty('message', expect.any(String))
+                expect(body).toHaveProperty('message', `Incorrect password`)
                 done()
             })
     })

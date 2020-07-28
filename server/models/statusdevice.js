@@ -14,8 +14,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   StatusDevice.init({
-    deviceSerial: DataTypes.STRING,
-    statusDevice: DataTypes.STRING
+    deviceSerial: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: false,
+          msg: `Device Serial can't be empty`
+        }
+      }
+    },
+    statusDevice: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: false,
+          msg: `Status device can't be empty`
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'StatusDevice',
