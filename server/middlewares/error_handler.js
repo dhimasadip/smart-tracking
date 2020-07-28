@@ -19,18 +19,14 @@ module.exports = (err,req,res,next) => {
             err_code = 400
             err_msg = 'Invalid token'
             break
-        case 'UNAUTHORIZED':
-            err_code = 403
-            err_msg = 'Unauthorized'
-            break
         case 'EMAIL_NOT_FOUND':
             err_code = 404
             err_msg = 'Email not found'
             break
-        case 'USER_NOT_FOUND':
-            err_code = 404
-            err_msg = 'User not found'
-            break
+        // case 'USER_NOT_FOUND':
+        //     err_code = 404
+        //     err_msg = 'User not found'
+        //     break
         case 'TOKEN_NOT_FOUND':
             err_code = 404
             err_msg = 'Token not found'

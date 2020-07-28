@@ -16,8 +16,26 @@ module.exports = (sequelize, DataTypes) => {
   };
   History.init({
     DeviceId: DataTypes.INTEGER,
-    latitude: DataTypes.FLOAT,
-    longitude: DataTypes.FLOAT
+    latitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: false,
+          msg: `latitude can't be empty`
+        },
+      }
+    },
+    longitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: false,
+          msg: `longitude can't be empty`
+        },
+      }
+    }
   }, {
     sequelize,
     modelName: 'History',

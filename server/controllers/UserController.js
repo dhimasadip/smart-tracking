@@ -23,7 +23,7 @@ class UserController {
                 if (err.errors) {
                     let err_data = err.errors.map(el => {
                         if (el.message == 'email must be unique') {
-                            return ' Email already exist'
+                            return 'Email already exist'
                         }
                         return el.message
                     })
@@ -62,7 +62,7 @@ class UserController {
                     next({ str_code: 'EMAIL_NOT_FOUND'})
                 }
             })
-            .catch(() => {
+            .catch((err) => {
                 next({ str_code: 'INTERNAL_SERVER_ERROR' })
             })
     }

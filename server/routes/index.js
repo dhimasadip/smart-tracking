@@ -7,7 +7,9 @@ const HistoryRoute = require('./HistoryRoute')
 const ConnectionRoute = require('./ConnectionRoute')
 
 router.get('/', (req, res, next) => {
-    res.status(200).json({ statusCode: 200 })
+    res.status(200).json({ 
+        message: 'Welcome Smart Tracking',
+    })
 })
 
 router.use('/', UserRoute)

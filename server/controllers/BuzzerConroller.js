@@ -2,7 +2,6 @@ const { Buzzer, Device } = require('../models')
 
 class BuzzerController {
     static turnOn(req, res, next) {
-
         const { DeviceId } = req.params
 
         const newBuzz = {
@@ -14,8 +13,12 @@ class BuzzerController {
             .then(buzzer => {
                 res.status(201).json(buzzer)
             })
-            .catch(() => {
-                next({ str_code: 'INTERNAL_SERVER_ERROR' })
+            .catch((err) => {
+                if (err.name = 'SequelizeForeignKeyConstraintError') {
+                    next({ str_code: 'DEVICE_UNKNOWN' })
+                } else {
+                    next({ str_code: 'INTERNAL_SERVER_ERROR' })
+                }
             })
     }
 
@@ -32,12 +35,16 @@ class BuzzerController {
             .then(buzzer => {
                 res.status(201).json(buzzer)
             })
-            .catch(() => {
-                next({ str_code: 'INTERNAL_SERVER_ERROR' })
+            .catch((err) => {
+                if (err.name = 'SequelizeForeignKeyConstraintError') {
+                    next({ str_code: 'DEVICE_UNKNOWN' })
+                } else {
+                    next({ str_code: 'INTERNAL_SERVER_ERROR' })
+                }
             })
     }
 
-    
+
     static deviceRead(req, res, next) {
         const { buzzerId } = req.params
 
@@ -50,11 +57,15 @@ class BuzzerController {
             limit: 1
         })
             .then(data => {
-                const resp = { isActive: data[0].isActive }
-                res.status(200).json(resp)
+                if (data.length == 0) {
+                    throw ({ str_code: 'DEVICE_UNKNOWN' })
+                } else {
+                    const resp = { isActive: data[0].isActive }
+                    res.status(200).json(resp)
+                }
             })
-            .catch(() => {
-                next({ str_code: 'INTERNAL_SERVER_ERROR' })
+            .catch((err) => {
+                next(err)
             })
     }
 }
