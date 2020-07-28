@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Linking, Platform } from 'react-native';
 
-export default function CallPolice() {
+export default () => {
   const dialCall = () => {
     let phoneNumber = '';
     if (Platform.OS === 'android') {

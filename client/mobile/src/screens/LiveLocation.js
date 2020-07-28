@@ -6,7 +6,7 @@ import { getCurrent } from '../store/actions/currentAction';
 import CurrentLocation from '../components/CurrentLocation';
 import pointer from '../../assets/pointerCar.png';
 
-export default function Maps() {
+export default () => {
   const dispatch = useDispatch();
   const { current } = useSelector(state => state.currentReducer);
   const [region, setRegion] = useState({
