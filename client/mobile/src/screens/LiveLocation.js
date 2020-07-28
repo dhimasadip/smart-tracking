@@ -6,12 +6,15 @@ import { getCurrent } from '../store/actions/currentAction';
 import CurrentLocation from '../components/CurrentLocation';
 import pointer from '../../assets/pointerCar.png';
 import person from '../../assets/person.png';
-
+import { Divider, ApplicationProvider } from '@ui-kitten/components';
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
+import * as eva from '@eva-design/eva';
+
 
 export default function LiveLocation({ navigation }) {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.userReducer.user)
   const { current } = useSelector(state => state.currentReducer);
   const [region, setRegion] = useState({
     latitude: 48.858570,
@@ -25,6 +28,7 @@ export default function LiveLocation({ navigation }) {
     latitudeDelta: 0.02,
     longitudeDelta: 0.02
   });
+  const [currLoc, setCurrLoc] = useState('')
 
   const getLocationUser = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION)
@@ -37,8 +41,8 @@ export default function LiveLocation({ navigation }) {
     const currRegion = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      latitudeDelta: 0.045,
-      longitudeDelta: 0.045,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
     }
 
     setUserLocation(currRegion)
@@ -61,7 +65,7 @@ export default function LiveLocation({ navigation }) {
   async function getLocation() {
     const res = await fetch(`http://54.255.56.32:3000/devices/1/current`, {
       headers: {
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTU5NTg2MTQxOH0.ynOGgRX4FYWF3gCAZIuGtt72kXsx3oMKtRfDwPYmtLk'
+        token: user.token
       }
     });
     const data = await res.json();
@@ -71,11 +75,10 @@ export default function LiveLocation({ navigation }) {
       latitudeDelta: 0.02,
       longitudeDelta: 0.02
     })
+    const resp = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.latitude},${data.longitude}&key=AIzaSyAOYItv2qh4x1p8uM8kfhhpAj0Vrpk-gOU`)
+    const { results } = await resp.json()
+    setCurrLoc(results[2].formatted_address)
   }
-
-
-
-
 
 
 
@@ -108,10 +111,14 @@ export default function LiveLocation({ navigation }) {
           <Callout tooltip>
             <View>
               <View style={styles.bubble}>
-                <Text style={styles.name}>Mobil Yaris B1234NHK</Text>
+
                 {/* <Text>A short description</Text> */}
                 {/* <Text>{JSON.stringify(current)}</Text> */}
-                <Text>Date: {JSON.stringify(new Date(current.createdAt) + 0).substr(1, 21)}</Text>
+                <Text>{JSON.stringify(new Date(current.createdAt) + 0).substr(1, 21).replace(/ /, ', ')}</Text>
+                <ApplicationProvider {...eva} theme={eva.dark}>
+                  <Divider />
+                </ApplicationProvider>
+                <Text style={styles.name}>{currLoc}</Text>
                 {/* <Image 
                 style={styles.image}
                 source={pointer}

@@ -33,7 +33,7 @@ export default ({ navigation }) => {
                 start={{ x: 0.0, y: 0.25 }} end={{ x: 0.5, y: 1.0 }}
                 style={styles.box} colors={['#0AC7C4', '#0ABFCF']}
               >
-                <Button title="Current Location" color='#fff' onPress={() => navigation.navigate('CurrentLocation')} />
+                <Button title="Current Location" color='#fff' onPress={() => navigation.navigate('Current Location')} />
               </LinearGradient>
             </View>
 
@@ -42,7 +42,7 @@ export default ({ navigation }) => {
                 start={{ x: 0.0, y: 0.25 }} end={{ x: 0.5, y: 1.0 }}
                 style={styles.box} colors={['#0ACF70', '#09EF96']}
               >
-                <Button title="History Location" color='#fff' onPress={() => navigation.navigate('Maps')} />
+                <Button title="History Location" color='#fff' onPress={() => navigation.navigate('History Location')} />
               </LinearGradient>
             </View>
           </View>
