@@ -80,26 +80,20 @@ export default function LiveLocation({ navigation }) {
     setCurrLoc(results[2].formatted_address)
   }
 
+  setInterval(getLocation,15000);
+
 
 
   return (
     <View style={styles.container}>
       <CurrentLocation currLoc={() => centerMap(region)} />
-      {/* <View style={ styles.buttonsContainer }>
-        <Picker
-          // selectedValue={selectedValue}
-          style={{ height: 50, width: 150 }}
-          // onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-        >
-          <Picker.Item label="Java" value="java" />
-          <Picker.Item label="JavaScript" value="js" />
-        </Picker>
-      </View> */}
       <MapView style={styles.mapStyle}
-        region={region}
         // onRegionChangeComplete={region => setRegion(region)}
         ref={ref => (this.mapView = ref)}
-        initialRegion={region}>
+        initialRegion={region}
+        showsUserLocation={true}
+        showsCompass={true}
+        >
         {/* <Marker coordinate={{ latitude: current.latitude, longitude: current.longitude }}/>  */}
         <Marker
           coordinate={region}
