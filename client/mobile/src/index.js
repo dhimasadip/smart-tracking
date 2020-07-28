@@ -23,14 +23,14 @@ export default () => {
     return (
         <>
             {
-                user.name ? (
+                user ? (
                     <>
                         <NavigationContainer>
                             <Drawer.Navigator>
                                 <Drawer.Screen name="Home" component={Home} />
                                 <Drawer.Screen name="Maps" component={Maps} />
                                 <Drawer.Screen name="Current Location" component={LiveLocation} />
-                                <Drawer.Screen name="Call Police" component={CallPolice} />
+                                {/* <Drawer.Screen name="Call Police" component={CallPolice} /> */}
                                 <Drawer.Screen name="Scanner" component={Scanner} />
                             </Drawer.Navigator>
                         </NavigationContainer>
@@ -38,10 +38,10 @@ export default () => {
                 )
                     : (
                         <NavigationContainer>
-                            <Stack.Navigator>
-                                <Stack.Screen name="Home" component={Login} options={{ headerShown: false }} />
-                                <Stack.Screen name="Maps" component={Maps} options={{ headerShown: false }} />
-                                <Stack.Screen name="CurrentLocation" component={LiveLocation} options={{ headerShown: false }} />
+                            <Stack.Navigator headerMode={false}>
+                                <Stack.Screen name="Home" component={Login} />
+                                <Stack.Screen name="Maps" component={Maps} />
+                                <Stack.Screen name="CurrentLocation" component={LiveLocation}/>
                             </Stack.Navigator>
                         </NavigationContainer>
                     )

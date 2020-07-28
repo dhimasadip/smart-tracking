@@ -5,11 +5,8 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import flat_navigation from '../../assets/flat-navigation.png'
 import flat_smarttracking from '../../assets/Smart-tracking.png'
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
 
-export default () => {
-
-  const navigation = useNavigation()
+export default ({ navigation }) => {
 
   const dialCall = () => {
     let phoneNumber = '';
@@ -27,7 +24,7 @@ export default () => {
     <>
       <View style={styles.container}>
         <View style={styles.shadowBox}>
-          <Image source={flat_smarttracking} style={styles.stretch} />
+          <Image source={flat_navigation} style={styles.stretch} />
         </View>
         <View style={styles.column}>
           <View style={styles.row}>
@@ -121,3 +118,34 @@ const styles = StyleSheet.create({
     elevation: 15,
   }
 });
+
+// import * as React from 'react';
+// import { List } from 'react-native-paper';
+
+// const MyComponent = () => {
+//   const [expanded, setExpanded] = React.useState(true);
+
+//   const handlePress = () => setExpanded(!expanded);
+
+//   return (
+//     <List.Section title="Accordions">
+//       <List.Accordion
+//         title="Uncontrolled Accordion"
+//         left={props => <List.Icon {...props} icon="folder" />}>
+//         <List.Item title="First item" />
+//         <List.Item title="Second item" />
+//       </List.Accordion>
+
+//       <List.Accordion
+//         title="Controlled Accordion"
+//         left={props => <List.Icon {...props} icon="folder" />}
+//         expanded={expanded}
+//         onPress={handlePress}>
+//         <List.Item title="First item" />
+//         <List.Item title="Second item" />
+//       </List.Accordion>
+//     </List.Section>
+//   );
+// };
+
+// export default MyComponent;
