@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { Marker, Polyline, Callout } from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions, Image, Button,  Alert, Modal, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, Button, Alert, Modal, TouchableHighlight } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { getHistories } from '../store/actions/historyAction';
 import pointer from '../../assets/pointerCar.png';
 import location from '../../assets/location.png';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CurrentLocation from '../components/CurrentLocation';
+import userReducer from '../store/reducers/userReducer';
 
 export default function Maps() {
+  const user = useSelector(state => state.userReducer.user)
   const dispatch = useDispatch();
   const { histories } = useSelector(state => state.historyReducer);
   const [region, setRegion] = useState({
@@ -65,12 +67,12 @@ export default function Maps() {
     showMode2('time');
   };
 
-  useEffect( () => {
+  useEffect(() => {
     dispatch(getHistories(Date.parse(date), Date.parse(date2)));
     getLocation();
   }, [dispatch])
 
-  if(histories.length==0) {
+  if (histories.length == 0) {
     return (
       <View style={styles.container}>
         <Text>Loading...</Text>
@@ -78,23 +80,22 @@ export default function Maps() {
     )
   }
 
-  function filterHistory () {
+  function filterHistory() {
     dispatch(getHistories(Date.parse(date), Date.parse(date2)));
   }
 
   async function getLocation() {
-    const res = await fetch(`http://54.255.56.32:3000/devices/1/histories`,{
+    const res = await fetch(`http://54.255.56.32:3000/devices/1/histories`, {
       headers: {
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTU5NTg2MTQxOH0.ynOGgRX4FYWF3gCAZIuGtt72kXsx3oMKtRfDwPYmtLk'
-      }
+        token: user.token}
     });
     const data = await res.json();
-    if(data) {
+    if (data) {
       setRegion({
         latitude: data[0].latitude,
         longitude: data[0].longitude,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01
       })
     }
   }
@@ -107,61 +108,63 @@ export default function Maps() {
           setModalVisible(true);
         }}
       >
-        <Text style={styles.textStyle}>{JSON.stringify(date+0).substr(1,21)} to {JSON.stringify(date2+0).substr(1,21)}</Text>
+        <Text style={styles.textStyle}>
+          {JSON.stringify(date + 0).substr(1, 21).replace(/ /, ', ')} to {JSON.stringify(date2 + 0).substr(1, 21).replace(/ /, ', ')}
+        </Text>
       </TouchableHighlight>
 
       <CurrentLocation currLoc={() => centerMap(region)} />
-      
-      <MapView style={styles.mapStyle} 
+
+      <MapView style={styles.mapStyle}
         region={region}
         // onRegionChangeComplete={region => setRegion(region)}
         ref={ref => (this.mapView = ref)}
         initialRegion={region}
-          >
-        { histories? <Marker coordinate={{ latitude: histories[0].latitude, longitude: histories[0].longitude }}>
-        <Image 
-              source={location}
-              style={{width:32, height:32}}
-        />
-        <Callout tooltip>
-          <View>
-            <View style={styles.bubble}>
-              <Text style={styles.name}>Mobil Yaris B1234NHK</Text>
-              {/* <Text>A short description</Text> */}
-              {/* <Text>{JSON.stringify(current)}</Text> */}
-              <Text>Date: {JSON.stringify(new Date(histories[0].createdAt)+0).substr(1,21)}</Text>
-              {/* <Image 
+      >
+        {histories ? <Marker coordinate={{ latitude: histories[0].latitude, longitude: histories[0].longitude }}>
+          <Image
+            source={location}
+            style={{ width: 32, height: 32 }}
+          />
+          <Callout tooltip>
+            <View>
+              <View style={styles.bubble}>
+                <Text style={styles.name}>Mobil Yaris B1234NHK</Text>
+                {/* <Text>A short description</Text> */}
+                {/* <Text>{JSON.stringify(current)}</Text> */}
+                <Text>Date: {JSON.stringify(new Date(histories[0].createdAt) + 0).substr(1, 21)}</Text>
+                {/* <Image 
                 style={styles.image}
                 source={pointer}
               /> */}
+              </View>
+              <View style={styles.arrowBorder} />
+              <View style={styles.arrow} />
             </View>
-            <View style={styles.arrowBorder} />
-            <View style={styles.arrow} />
-          </View>
-        </Callout>
-      </Marker> : ''}
-     {histories ? <Marker coordinate={{ latitude: histories[histories.length-1].latitude, longitude: histories[histories.length-1].longitude }}><Image 
+          </Callout>
+        </Marker> : ''}
+        {histories ? <Marker coordinate={{ latitude: histories[histories.length - 1].latitude, longitude: histories[histories.length - 1].longitude }}><Image
           source={pointer}
-          style={{width:32, height:32}}
+          style={{ width: 32, height: 32 }}
         />
-        <Callout tooltip>
-          <View>
-            <View style={styles.bubble}>
-              <Text style={styles.name}>Mobil Yaris B1234NHK</Text>
-              {/* <Text>A short description</Text> */}
-              {/* <Text>{JSON.stringify(current)}</Text> */}
-              <Text>Date: {JSON.stringify(new Date(histories[histories.length-1].createdAt)+0).substr(1,21)}</Text>
-              {/* <Image 
+          <Callout tooltip>
+            <View>
+              <View style={styles.bubble}>
+                <Text style={styles.name}>Mobil Yaris B1234NHK</Text>
+                {/* <Text>A short description</Text> */}
+                {/* <Text>{JSON.stringify(current)}</Text> */}
+                <Text>Date: {JSON.stringify(new Date(histories[histories.length - 1].createdAt) + 0).substr(1, 21)}</Text>
+                {/* <Image 
                 style={styles.image}
                 source={pointer}
               /> */}
+              </View>
+              <View style={styles.arrowBorder} />
+              <View style={styles.arrow} />
             </View>
-            <View style={styles.arrowBorder} />
-            <View style={styles.arrow} />
-          </View>
-        </Callout>
-      </Marker> : ''}
-      {histories ? <Polyline coordinates={histories} strokeColor="#3498db" strokeWidth={6} /> : ''}
+          </Callout>
+        </Marker> : ''}
+        {histories ? <Polyline coordinates={histories} strokeColor="#3498db" strokeWidth={6} /> : ''}
       </MapView>
 
       <Modal
@@ -175,8 +178,8 @@ export default function Maps() {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Filter History</Text>
-            <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-              <View style={{flexDirection: "column", margin: 10}}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <View style={{ flexDirection: "column", margin: 10 }}>
                 <Text>From:</Text>
                 <View>
                   <Button onPress={showDatepicker} title="Select Date!" />
@@ -194,9 +197,9 @@ export default function Maps() {
                     onChange={onChange}
                   />
                 )}
-                <Text>{JSON.stringify(date+0).substr(1,21)}</Text>
+                <Text>{JSON.stringify(date + 0).substr(1, 21)}</Text>
               </View>
-              <View style={{flexDirection: "column", margin: 10}}>
+              <View style={{ flexDirection: "column", margin: 10 }}>
                 <Text>To:</Text>
                 <View>
                   <Button onPress={showDatepicker2} title="Select Date!" />
@@ -214,13 +217,13 @@ export default function Maps() {
                     onChange={onChange2}
                   />
                 )}
-                <Text>{JSON.stringify(date2+0).substr(1,21)}</Text>
+                <Text>{JSON.stringify(date2 + 0).substr(1, 21)}</Text>
               </View>
             </View>
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
-                filterHistory ();
+                filterHistory();
                 setModalVisible(!modalVisible);
               }}
             >
@@ -243,10 +246,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative'
   },
   mapStyle: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height/1.1,
+    height: Dimensions.get('window').height,
   },
   centeredView: {
     flex: 1,
@@ -273,7 +277,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    position: 'absolute',
+    top: 30,
+    left: 10,
+    // transform: [{ translateX: 50, translateY: 50 }],
+    zIndex: 9
   },
   textStyle: {
     color: "white",

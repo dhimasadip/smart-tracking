@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import Home from './screens/Home.js';
 import Login from './screens/Login.js';
 import Maps from './screens/Maps.js';
-import CallPolice from './screens/CallPolice.js';
 import LiveLocation from './screens/LiveLocation.js';
 import Scanner from './screens/Scanner.js';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -23,12 +22,12 @@ export default () => {
     return (
         <>
             {
-                user ? (
+                user.name ? (
                     <>
                         <NavigationContainer>
                             <Drawer.Navigator>
                                 <Drawer.Screen name="Home" component={Home} />
-                                <Drawer.Screen name="Maps" component={Maps} />
+                                <Drawer.Screen name="History Location" component={Maps} />
                                 <Drawer.Screen name="Current Location" component={LiveLocation} />
                                 {/* <Drawer.Screen name="Call Police" component={CallPolice} /> */}
                                 <Drawer.Screen name="Scanner" component={Scanner} />
@@ -40,8 +39,8 @@ export default () => {
                         <NavigationContainer>
                             <Stack.Navigator headerMode={false}>
                                 <Stack.Screen name="Home" component={Login} />
-                                <Stack.Screen name="Maps" component={Maps} />
-                                <Stack.Screen name="CurrentLocation" component={LiveLocation}/>
+                                <Stack.Screen name="History Location" component={Maps} />
+                                <Stack.Screen name="Current Location" component={LiveLocation}/>
                             </Stack.Navigator>
                         </NavigationContainer>
                     )
