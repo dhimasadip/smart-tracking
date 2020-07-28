@@ -45,8 +45,16 @@ export default function LiveLocation({ navigation }) {
       longitudeDelta: 0.01,
     }
 
-    setUserLocation(currRegion)
+    if (userLocation != currRegion) {
+      setUserLocation(currRegion)
+    }
   }
+
+  // setInterval(() => {
+  //   dispatch(getCurrent());
+  //   getLocation();
+  //   getLocationUser();
+  // }, 3500)
 
   useEffect(() => {
     dispatch(getCurrent());

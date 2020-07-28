@@ -67,6 +67,11 @@ export default function Maps() {
     showMode2('time');
   };
 
+  // setInterval(() => {
+  //   dispatch(getHistories(Date.parse(date), Date.parse(date2)));
+  //   getLocation();
+  // }, 3500)
+
   useEffect(() => {
     dispatch(getHistories(Date.parse(date), Date.parse(date2)));
     getLocation();
