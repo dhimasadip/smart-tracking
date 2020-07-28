@@ -182,10 +182,10 @@ export default function Maps() {
               <View style={{ flexDirection: "column", margin: 10 }}>
                 <Text>From:</Text>
                 <View>
-                  <Button onPress={showDatepicker} title="Select Date!" />
+                  <Button onPress={showDatepicker} title={JSON.stringify(date + 0).substr(5, 15)} />
                 </View>
                 <View>
-                  <Button onPress={showTimepicker} title="Select Time!" />
+                  <Button onPress={showTimepicker} title={JSON.stringify(date + 0).substr(17, 21)} />
                 </View>
                 {show && (
                   <DateTimePicker
@@ -202,10 +202,10 @@ export default function Maps() {
               <View style={{ flexDirection: "column", margin: 10 }}>
                 <Text>To:</Text>
                 <View>
-                  <Button onPress={showDatepicker2} title="Select Date!" />
+                  <Button onPress={showDatepicker2} title={JSON.stringify(date2 + 0).substr(5, 15)} />
                 </View>
                 <View>
-                  <Button onPress={showTimepicker2} title="Select Time!" />
+                  <Button onPress={showTimepicker2} title={JSON.stringify(date2 + 0).substr(17, 21)} />
                 </View>
                 {show2 && (
                   <DateTimePicker
