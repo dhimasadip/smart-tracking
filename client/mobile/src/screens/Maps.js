@@ -181,11 +181,11 @@ export default function Maps() {
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
               <View style={{ flexDirection: "column", margin: 10 }}>
                 <Text>From:</Text>
-                <View>
-                  <Button onPress={showDatepicker} title={JSON.stringify(date + 0).substr(5, 15)} />
+                <View style={{margin: 10 }}>
+                  <Button onPress={showDatepicker} title={JSON.stringify(date + 0).substr(5, 12)} />
                 </View>
-                <View>
-                  <Button onPress={showTimepicker} title={JSON.stringify(date + 0).substr(17, 21)} />
+                <View style={{margin: 10 }}>
+                  <Button onPress={showTimepicker} title={JSON.stringify(date + 0).substr(17, 5)} />
                 </View>
                 {show && (
                   <DateTimePicker
@@ -197,15 +197,14 @@ export default function Maps() {
                     onChange={onChange}
                   />
                 )}
-                <Text>{JSON.stringify(date + 0).substr(1, 21)}</Text>
               </View>
               <View style={{ flexDirection: "column", margin: 10 }}>
                 <Text>To:</Text>
-                <View>
-                  <Button onPress={showDatepicker2} title={JSON.stringify(date2 + 0).substr(5, 15)} />
+                <View style={{margin: 10 }}>
+                  <Button onPress={showDatepicker2} title={JSON.stringify(date2 + 0).substr(5, 12)} />
                 </View>
-                <View>
-                  <Button onPress={showTimepicker2} title={JSON.stringify(date2 + 0).substr(17, 21)} />
+                <View style={{margin: 10 }}>
+                  <Button onPress={showTimepicker2} title={JSON.stringify(date2 + 0).substr(17, 5)} />
                 </View>
                 {show2 && (
                   <DateTimePicker
@@ -217,11 +216,10 @@ export default function Maps() {
                     onChange={onChange2}
                   />
                 )}
-                <Text>{JSON.stringify(date2 + 0).substr(1, 21)}</Text>
               </View>
             </View>
             <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              style={{ ...styles.openButton, backgroundColor: "#2196F3", margin: 10 }}
               onPress={() => {
                 filterHistory();
                 setModalVisible(!modalVisible);
