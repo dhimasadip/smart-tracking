@@ -1,19 +1,30 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import * as React from 'react';
+import { List } from 'react-native-paper';
 
-export default function Home() {
+const MyComponent = () => {
+  const [expanded, setExpanded] = React.useState(true);
+
+  const handlePress = () => setExpanded(!expanded);
+
   return (
-    <View style={styles.container}>
-      <Text>Home Pages</Text>
-    </View>
-  )
-}
+    <List.Section title="Accordions">
+      <List.Accordion
+        title="Uncontrolled Accordion"
+        left={props => <List.Icon {...props} icon="folder" />}>
+        <List.Item title="First item" />
+        <List.Item title="Second item" />
+      </List.Accordion>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+      <List.Accordion
+        title="Controlled Accordion"
+        left={props => <List.Icon {...props} icon="folder" />}
+        expanded={expanded}
+        onPress={handlePress}>
+        <List.Item title="First item" />
+        <List.Item title="Second item" />
+      </List.Accordion>
+    </List.Section>
+  );
+};
+
+export default MyComponent;

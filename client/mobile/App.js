@@ -19,7 +19,7 @@ export default function App() {
       <NavigationContainer>
         <Drawer.Navigator>
           <Drawer.Screen name="Home" component={Home} />
-          <Drawer.Screen name="Maps" component={Maps} />
+          <Drawer.Screen name="Histories" component={Maps} />
           <Drawer.Screen name="Current Location" component={LiveLocation} />
           <Drawer.Screen name="Call Police" component={CallPolice} />
           <Drawer.Screen name="Scanner" component={Scanner} />
