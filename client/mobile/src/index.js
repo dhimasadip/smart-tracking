@@ -29,7 +29,7 @@ export default () => {
                                 <Drawer.Screen name="Home" component={Home} />
                                 <Drawer.Screen name="History Location" component={Maps} />
                                 <Drawer.Screen name="Current Location" component={LiveLocation} />
-                                <Drawer.Screen name="Scanner" component={Scanner} />
+                                {/* <Drawer.Screen name="Scanner" component={Scanner} /> */}
                             </Drawer.Navigator>
                         </NavigationContainer>
                         

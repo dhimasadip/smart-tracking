@@ -51,12 +51,6 @@ export default function LiveLocation({ navigation }) {
     }
   }
 
-  // setInterval(() => {
-  //   dispatch(getCurrent());
-  //   getLocation();
-  //   getLocationUser();
-  // }, 3500)
-
   useEffect(() => {
     dispatch(getCurrent());
     getLocation();
@@ -101,7 +95,6 @@ export default function LiveLocation({ navigation }) {
         // onRegionChangeComplete={region => setRegion(region)}
         ref={ref => (this.mapView = ref)}
         initialRegion={region}
-        showsUserLocation={true}
         showsCompass={true}
       >
         <Btn

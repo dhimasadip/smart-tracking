@@ -4,7 +4,7 @@ import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Layout, Icon, Input, IconRegistry, Button, Text, Spinner } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/actions/userAction';
+import { login, listDevice } from '../store/actions/userAction';
 import { useNavigation } from '@react-navigation/native';
 
 const AlertIcon = (props) => (
@@ -39,6 +39,7 @@ export default () => {
     const loginHandler = () => {
         dispatch(login({ email, password }))
         setLoading(true)
+        
         if (user) {
             navigation.navigate('Home')
         }
