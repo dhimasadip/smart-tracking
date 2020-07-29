@@ -13,14 +13,8 @@ module.exports = (req,res,next) => {
             if (data) {
                 req.user = decode
                 next()
-            } else {
-                next({ str_code: 'USER_NOT_FOUND'})
-            }
+            } 
         })
-        .catch(() => {
-            next({ str_code: 'INTERNAL_SERVER_ERROR'})
-        })
-
     } catch {
         next({ str_code: 'INVALID_TOKEN' })
     }

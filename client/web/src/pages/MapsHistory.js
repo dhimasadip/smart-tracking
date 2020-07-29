@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   withScriptjs,
   withGoogleMap,
@@ -12,14 +12,27 @@ import { getHistories } from '../store/actions/historyAction';
 export default function MapsHistory() {
   const dispatch = useDispatch();
   const { histories } = useSelector(state => state.historyReducer);
-  useEffect( () => {
-    dispatch(getHistories());
+  const [date, setDate] = useState(new Date(Date.now() - 864e5));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const [date2, setDate2] = useState(new Date(Date.now()));
+  const [mode2, setMode2] = useState('date');
+  const [show2, setShow2] = useState(false);
+
+  useEffect(() => {
+    dispatch(getHistories(Date.parse(date), Date.parse(date2)));
   }, [dispatch])
 
   const InternalMap = props => (
     <GoogleMap defaultZoom={7} defaultCenter={histories[0]}>
       <Polyline
         path={histories}
+        options={{
+          strokeColor: "#3498db",
+          strokeOpacity: 0.75,
+          strokeWeight: 4,
+        }} 
       />
       <Marker position={histories[0]}/>
       <Marker position={histories[histories.length-1]}/>

@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
+      unique: true,
       validate: {
         isEmail: {
           args: false,
@@ -42,21 +43,21 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      notEmpty: {
-        args: false,
-        msg: `Password can't be empty`
-      },
-      len: {
-        args: [8,14],
-        msg: 'Password at least 8-14 characters'
+      validate: {
+        notEmpty: {
+          args: false,
+          msg: `Password can't be empty`
+        },
+        len: {
+          args: [8,14],
+          msg: 'Password at least 8-14 characters'
+        }
       }
     }
   }, {
     hooks: {
       beforeCreate: (instance) => {
-        if(instance.password.trim() !== '') {
-          instance.password = bcrypt.hashSync(instance.password, salt)
-        }
+        instance.password = bcrypt.hashSync(instance.password, salt)
       }
     },
     sequelize,
