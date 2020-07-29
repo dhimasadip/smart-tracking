@@ -7,9 +7,9 @@ import pointer from '../../assets/pointerCar.png';
 import location from '../../assets/location.png';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CurrentLocation from '../components/CurrentLocation';
-import userReducer from '../store/reducers/userReducer';
+import { Icon as Icn, Button as Btn, H3 } from 'native-base'
 
-export default function Maps() {
+export default function Maps({ navigation }) {
   const user = useSelector(state => state.userReducer.user)
   const dispatch = useDispatch();
   const { histories } = useSelector(state => state.historyReducer);
@@ -87,7 +87,8 @@ export default function Maps() {
   async function getLocation() {
     const res = await fetch(`http://54.255.56.32:3000/devices/1/histories`, {
       headers: {
-        token: user.token}
+        token: user.token
+      }
     });
     const data = await res.json();
     if (data) {
@@ -108,9 +109,14 @@ export default function Maps() {
           setModalVisible(true);
         }}
       >
-        <Text style={styles.textStyle}>
-          {JSON.stringify(date + 0).substr(1, 21).replace(/ /, ', ')} to {JSON.stringify(date2 + 0).substr(1, 21).replace(/ /, ', ')}
-        </Text>
+        <View>
+          <Text style={styles.textStyle}>
+            {`From\u00A0: ${JSON.stringify(date + 0).substr(1, 21).replace(/ /, ', ')}`}
+          </Text>
+          <Text style={styles.textStyle}>
+            {`To \u00A0 \u00A0 \u00A0: ${JSON.stringify(date2 + 0).substr(1, 21).replace(/ /, ', ')}`}
+          </Text>
+        </View>
       </TouchableHighlight>
 
       <CurrentLocation currLoc={() => centerMap(region)} />
@@ -121,6 +127,13 @@ export default function Maps() {
         ref={ref => (this.mapView = ref)}
         initialRegion={region}
       >
+        <Btn
+          transparent
+          style={{ top: 27 }}
+          onPress={() => navigation.openDrawer()}
+        >
+          <Icn name="menu" />
+        </Btn>
         {histories ? <Marker coordinate={{ latitude: histories[0].latitude, longitude: histories[0].longitude }}>
           <Image
             source={location}
@@ -129,10 +142,10 @@ export default function Maps() {
           <Callout tooltip>
             <View>
               <View style={styles.bubble}>
-                <Text style={styles.name}>Mobil Yaris B1234NHK</Text>
+                {/* <Text style={styles.name}>Mobil Yaris B1234NHK</Text> */}
                 {/* <Text>A short description</Text> */}
                 {/* <Text>{JSON.stringify(current)}</Text> */}
-                <Text>Date: {JSON.stringify(new Date(histories[0].createdAt) + 0).substr(1, 21)}</Text>
+                <Text>{JSON.stringify(new Date(histories[0].createdAt) + 0).substr(1, 21)}</Text>
                 {/* <Image 
                 style={styles.image}
                 source={pointer}
@@ -177,56 +190,73 @@ export default function Maps() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Filter History</Text>
+            <H3 style={styles.modalText}>Filter History</H3>
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-              <View style={{ flexDirection: "column", margin: 10 }}>
-                <Text>From:</Text>
-                <View style={{margin: 10 }}>
-                  <Button onPress={showDatepicker} title={JSON.stringify(date + 0).substr(5, 12)} />
+              {
+                !show2 &&
+                <View style={{ flexDirection: "column", margin: 10}, !show2 && show ? {width: '90%'}: ''}>
+                  <Text>From:</Text>
+                  <View style={{margin: 10 }}>
+                    <Button onPress={showDatepicker} title={JSON.stringify(date + 0).substr(5, 12)} />
+                  </View>
+                  <View style={{margin: 10 }}>
+                    <Button onPress={showTimepicker} title={JSON.stringify(date + 0).substr(17, 5)} />
+                  </View>
+                  {show && (
+                    <> 
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange}
+                        style={{overflow: 'visible'}}
+                      />
+                      <Button title="OK" onPress={() => setShow(false)} />
+                    </>
+                  )}
                 </View>
-                <View style={{margin: 10 }}>
-                  <Button onPress={showTimepicker} title={JSON.stringify(date + 0).substr(17, 5)} />
+              }
+
+              {
+                !show &&
+                <View style={{ flexDirection: "column", margin: 10 }, !show && show2 ? {width: '90%'}: ''}>
+                  <Text>To:</Text>
+                  <View style={{margin: 10 }}>
+                    <Button onPress={showDatepicker2} title={JSON.stringify(date2 + 0).substr(5, 12)} />
+                  </View>
+                  <View style={{margin: 10 }}>
+                    <Button onPress={showTimepicker2} title={JSON.stringify(date2 + 0).substr(17, 5)} />
+                  </View>
+                  {show2 && (
+                    <> 
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date2}
+                        mode={mode2}
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange2}
+                      />
+                      <Button title="OK" onPress={() => setShow2(false)} />
+                    </>
+                  )}
                 </View>
-                {show && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode={mode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange}
-                  />
-                )}
-              </View>
-              <View style={{ flexDirection: "column", margin: 10 }}>
-                <Text>To:</Text>
-                <View style={{margin: 10 }}>
-                  <Button onPress={showDatepicker2} title={JSON.stringify(date2 + 0).substr(5, 12)} />
-                </View>
-                <View style={{margin: 10 }}>
-                  <Button onPress={showTimepicker2} title={JSON.stringify(date2 + 0).substr(17, 5)} />
-                </View>
-                {show2 && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date2}
-                    mode={mode2}
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange2}
-                  />
-                )}
-              </View>
+              }
             </View>
-            <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3", margin: 10 }}
-              onPress={() => {
-                filterHistory();
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <Text style={styles.textStyle}>Search History!</Text>
-            </TouchableHighlight>
+            {
+              !show && !show2 &&
+              <TouchableHighlight
+                style={{ ...styles.openButton, backgroundColor: "#2196F3", position: 'absolute', height: 35, top: 195, left: 50 }}
+                onPress={() => {
+                  filterHistory();
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <Text style={styles.textStyle}>Search History!</Text>
+              </TouchableHighlight>
+            }
           </View>
         </View>
       </Modal>
@@ -269,7 +299,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
+    width: '90%'
   },
   openButton: {
     backgroundColor: "#F194FF",
@@ -277,10 +308,10 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     position: 'absolute',
-    top: 30,
+    top: 73,
     left: 10,
-    // transform: [{ translateX: 50, translateY: 50 }],
-    zIndex: 9
+    zIndex: 9,
+    width: '95%'
   },
   textStyle: {
     color: "white",

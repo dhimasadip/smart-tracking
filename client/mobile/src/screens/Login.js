@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { StyleSheet, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, TouchableWithoutFeedback, KeyboardAvoidingView, View } from 'react-native';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Layout, Icon, Input, IconRegistry, Button, Text } from '@ui-kitten/components';
+import { ApplicationProvider, Layout, Icon, Input, IconRegistry, Button, Text, Spinner } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/actions/userAction';
+import { login, listDevice } from '../store/actions/userAction';
 import { useNavigation } from '@react-navigation/native';
+
 const AlertIcon = (props) => (
     <Icon {...props} name='alert-circle-outline' />
+);
+
+const LoadingIndicator = (props) => (
+    <View style={[props.style, styles.indicator]}>
+        <Spinner size='small' />
+    </View>
 );
 
 export default () => {
@@ -17,6 +24,7 @@ export default () => {
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const user = useSelector(state => state.userReducer.user)
     const navigation = useNavigation()
+    const [loading, setLoading] = useState(false)
 
     const toggleSecureEntry = () => {
         setSecureTextEntry(!secureTextEntry);
@@ -30,7 +38,8 @@ export default () => {
 
     const loginHandler = () => {
         dispatch(login({ email, password }))
-
+        setLoading(true)
+        
         if (user) {
             navigation.navigate('Home')
         }
@@ -68,9 +77,19 @@ export default () => {
                                 secureTextEntry={secureTextEntry}
                                 onChangeText={nextValue => setPassword(nextValue)}
                             />
-                            <Button appearance='filled' onPress={loginHandler}>
-                                Login
-                            </Button>
+                            {
+                                loading &&
+                                <Button appearance='outline' accessoryLeft={LoadingIndicator}>
+                                    LOADING
+                                </Button>
+                            }
+                            {
+                                !loading &&
+                                <Button appearance='filled' onPress={loginHandler}>
+                                    Login
+                                </Button>
+
+                            }
                         </Layout>
                     </Layout>
                 </KeyboardAvoidingView>
@@ -82,9 +101,12 @@ export default () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: '#2d3436',
         color: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    indicator: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
