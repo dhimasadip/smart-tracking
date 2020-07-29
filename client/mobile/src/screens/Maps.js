@@ -7,9 +7,9 @@ import pointer from '../../assets/pointerCar.png';
 import location from '../../assets/location.png';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CurrentLocation from '../components/CurrentLocation';
-import userReducer from '../store/reducers/userReducer';
+import { Icon as Icn, Button as Btn } from 'native-base'
 
-export default function Maps() {
+export default function Maps({ navigation }) {
   const user = useSelector(state => state.userReducer.user)
   const dispatch = useDispatch();
   const { histories } = useSelector(state => state.historyReducer);
@@ -67,11 +67,6 @@ export default function Maps() {
     showMode2('time');
   };
 
-  // setInterval(() => {
-  //   dispatch(getHistories(Date.parse(date), Date.parse(date2)));
-  //   getLocation();
-  // }, 3500)
-
   useEffect(() => {
     dispatch(getHistories(Date.parse(date), Date.parse(date2)));
     getLocation();
@@ -92,7 +87,8 @@ export default function Maps() {
   async function getLocation() {
     const res = await fetch(`http://54.255.56.32:3000/devices/1/histories`, {
       headers: {
-        token: user.token}
+        token: user.token
+      }
     });
     const data = await res.json();
     if (data) {
@@ -126,6 +122,13 @@ export default function Maps() {
         ref={ref => (this.mapView = ref)}
         initialRegion={region}
       >
+        <Btn
+          transparent
+          style={{ top: 15 }}
+          onPress={() => navigation.openDrawer()}
+        >
+          <Icn name="menu" />
+        </Btn>
         {histories ? <Marker coordinate={{ latitude: histories[0].latitude, longitude: histories[0].longitude }}>
           <Image
             source={location}
@@ -284,10 +287,10 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     position: 'absolute',
-    top: 30,
+    top: 80,
     left: 10,
-    // transform: [{ translateX: 50, translateY: 50 }],
-    zIndex: 9
+    zIndex: 9,
+    width: '95%'
   },
   textStyle: {
     color: "white",

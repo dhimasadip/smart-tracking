@@ -10,6 +10,7 @@ import { Divider, ApplicationProvider } from '@ui-kitten/components';
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
 import * as eva from '@eva-design/eva';
+import { Icon as Icn, Button as Btn } from 'native-base'
 
 
 export default function LiveLocation({ navigation }) {
@@ -88,20 +89,28 @@ export default function LiveLocation({ navigation }) {
     setCurrLoc(results[2].formatted_address)
   }
 
-  setInterval(getLocation,15000);
+  setInterval(getLocation, 15000);
 
 
 
   return (
     <View style={styles.container}>
       <CurrentLocation currLoc={() => centerMap(region)} />
+
       <MapView style={styles.mapStyle}
         // onRegionChangeComplete={region => setRegion(region)}
         ref={ref => (this.mapView = ref)}
         initialRegion={region}
         showsUserLocation={true}
         showsCompass={true}
+      >
+        <Btn
+          transparent
+          style={{ marginTop: 15 }}
+          onPress={() => navigation.openDrawer()}
         >
+          <Icn name="menu" />
+        </Btn>
         {/* <Marker coordinate={{ latitude: current.latitude, longitude: current.longitude }}/>  */}
         <Marker
           coordinate={region}
