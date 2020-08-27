@@ -2,7 +2,7 @@ const { Device, Connection, Buzzer } = require('../models')
 
 class DeviceController {
 
-    static addDevice(req, res, next) {
+    static async addDevice(req, res, next) {
         const { deviceSerial } = req.body
 
         let deviceData
